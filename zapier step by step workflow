@@ -1,0 +1,30 @@
+# ⚡ PayFlow AI: Zapier Automation Workflow Architecture
+
+This document outlines the background automation pipeline powering PayFlow AI. The workflow acts as the reliable bridge between the AI-driven frontend and third-party payment and logging APIs.
+
+---
+
+## 🔄 End-to-End Workflow Steps
+
+### 1. Trigger: Webhook by Zapier (Catch Hook)
+* **Purpose:** Listens for incoming payment payloads dispatched directly from the Bolt.new frontend application.
+* **Payload Data Captured:** 
+  * `Recipient Email` (Target destination for payout confirmations)
+  * `Amount` (Transaction value)
+  * `Expense Name` / Details
+
+### 2. Action: Delay by Zapier
+* **Purpose:** Simulates scheduled processing time or background queue management.
+* **Configuration:** Pauses the workflow execution for a designated timeframe before pushing the transaction forward to PayPal.
+
+### 3. Action: PayPal (Send Payment / Create Order)
+* **Purpose:** Securely processes the financial transaction using the validated data received from the webhook payload.
+
+### 4. Action: Google Calendar (Create Detailed Event)
+* **Purpose:** Acts as an automated audit trail layer. 
+* **Configuration:** Automatically blocks out and logs the transaction details (Amount, Recipient, and Timestamp) directly onto your Google Calendar to maintain strict accountability records.
+
+### 5. Action: Gmail (Send Email)
+* **Purpose:** Dispatches instant confirmation receipts to the user.
+* **Configuration:** Automatically routes confirmation details to the designated email address and tags the message under the **`IMPORTANT`** mailbox label for high-priority visibility.
+*
